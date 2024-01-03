@@ -5,15 +5,28 @@ Note: I haven't made most these resources, I just want to centralize them so tha
 
 # Fine-tuning open-source LLMs
 
-## Alignment handbook
+Fine-tuning an LLM typically involves 2 steps:
 
-Hugging Face maintains the Alignment Handbook, which contains scripts to fine-tune any decoder-only LLM for supervised fine-tuning (SFT) and direct preference optimization (DPO): https://github.com/huggingface/alignment-handbook.
+* supervised fine-tuning (SFT), also called instruction tuning.
+* human preference fine-tuning.
+
+## General guides
+
+### Alignment Handbook
+
+Hugging Face maintains the Alignment Handbook, which contains scripts to fine-tune any decoder-only LLM for supervised fine-tuning (SFT) and direct preference optimization (DPO): https://github.com/huggingface/alignment-handbook. The scripts support both full fine-tuning and QLora.
+
+## Model-specific guides
 
 ### LLaMa-2
 
 LLaMa-2 is an open LLM by Meta. It improves upon LLaMa v1.
 
 Fine-tune LLaMa-2 on your own data using QLoRa: https://github.com/brevdev/notebooks/blob/main/llama2-finetune-own-data.ipynb.
+
+Fine-tune LLaMa-2 in Google Colab: https://github.com/mlabonne/llm-course/blob/main/Fine_tune_Llama_2_in_Google_Colab.ipynb.
+
+Fine-tune LLaMa-2 with DPO: https://huggingface.co/blog/dpo-trl.
 
 ### Mistral-7B
 
@@ -33,7 +46,7 @@ Mistral-8x7B is the second open-source LLM by Mistral.ai. It improves upon Mistr
 
 Fine-tune Mixtral on your own data using QLoRa: https://github.com/brevdev/notebooks/blob/main/mixtral-finetune-own-data.ipynb.
 
-# Multimodal LLMs
+# Fine-tuning multimodal LLMs
 
 ### BLIP-2
 
@@ -46,3 +59,9 @@ Fine-tune BLIP-2 using PEFT: https://colab.research.google.com/drive/16XbIysCzgp
 LLaVa is a multimodal LLM by Microsoft.
 
 Deploying LLaVa-1.5 on AWS: https://dev.to/denisyay/create-a-visual-chatbot-on-aws-ec2-with-llava-15-transformers-and-runhouse-hm1
+
+# Deploying open-source LLMs
+
+## Inference Endpoints
+
+Any Hugging Face model can be deployed using Inference Endpoints: https://huggingface.co/docs/inference-endpoints/index. This automatically spins up an endpoint for you, on a cloud provider of choice.
