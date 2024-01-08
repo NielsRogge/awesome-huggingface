@@ -7,8 +7,8 @@ Note: I haven't made most these resources, I just want to centralize them so tha
 
 Fine-tuning an LLM typically involves 2 steps:
 
-* supervised fine-tuning (SFT), also called instruction tuning.
-* human preference fine-tuning.
+* supervised fine-tuning (SFT), also called instruction tuning. This task takes in a pre-trained base model and turns it into a chatbot.
+* human preference fine-tuning. This task increases a chatbot's friendliness and harmlessness.
 
 ## General guides
 
@@ -64,19 +64,66 @@ Deploying LLaVa-1.5 on AWS: https://dev.to/denisyay/create-a-visual-chatbot-on-a
 
 For deploying open-source models, there are a few options.
 
-## vLLM
+## Software
 
-vLLM is a framework for setting up an inference server of open-source large language models. It also supports an OpenAI-compatible server. This allows to use the [OpenAI Python library](https://github.com/openai/openai-python) to interact with the model.
+On the software side, recommendations are vLLM and TGI.
+
+### vLLM
+
+[vLLM](https://github.com/vllm-project/vllm) is a framework for setting up an inference server of open-source large language models. It also supports an OpenAI-compatible server. This allows to use the [OpenAI Python library](https://github.com/openai/openai-python) to interact with the model.
 
 One typically sets up a virtual machine (VM) on a cloud of choice which hosts the vLLM server.
 
 - deploying vLLM on Google Cloud (Vertex AI endpoints): https://cloud.google.com/blog/products/ai-machine-learning/serve-open-source-llms-on-google-cloud
 - deploying vLLM and FastAPI on AWS: https://medium.com/@chinmayd49/self-host-llm-with-ec2-vllm-langchain-fastapi-llm-cache-and-huggingface-model-7a2efa2dcdab
 
-## TGI (text-generation-inference)
+### TGI (text-generation-inference)
 
-TGI is similar to vLLM in that in provides an inference server for open-source large language models.
+[TGI](https://github.com/huggingface/text-generation-inference) is similar to vLLM in that in provides an inference server for open-source large language models. It is used as backend for [Chat UI](https://github.com/huggingface/chat-ui), Hugging Face's open alternative to OpenAI's ChatGPT website.
 
-## Inference Endpoints
+TGI includes features such as:
 
-Any Hugging Face model can be deployed using Inference Endpoints: https://huggingface.co/docs/inference-endpoints/index. This automatically spins up an endpoint for you, on a cloud provider of choice.
+- Tensor Parallelism for faster inference on multiple GPUs
+- Token streaming using Server-Sent Events (SSE)
+- Continuous batching of incoming requests for increased total throughput
+- Quantization with methods like BitsandBytes
+- etc.
+
+## Hardware
+
+Regarding hardware, one could either go ahead on buy GPUs themselves, or rent them from one of the following providers:
+
+- the usual cloud providers: GCP, AWS and Azure. See for instance the GPU pricing of Google Cloud.
+- [Lambda Labs](https://lambdalabs.com/)
+- [Runpod](https://www.runpod.io/)
+- [Vast.ai](https://vast.ai/)
+- [Banana.dev](https://www.banana.dev/)
+- etc.
+
+These typically charge for the amount of time that a virtual machine (VM) with one or more GPUs is running for you. They typically offer both on-demand instances (which are dedicated only to you) and spot instances (which might disconnect similar to the free version of Google Colab).
+
+## Alternative solutions
+
+Alternative (often no-code) solutions to deploy open-source models include Inference Endpoints, Together.ai, AnyScale, FireWorks.ai, Replicate.
+
+One can make a distinction between dedicated and serverless deployments. Dedicated means that one gets an exclusive virtual machine assigned, and one gets charged for the amount of time the instance is running. Serverless on the other hand means that the model runs on shared hardware, and one gets charged for the amount of data that one sends to the endpoint.
+
+### Inference Endpoints
+
+[Inference Endpoints](https://huggingface.co/docs/inference-endpoints/index) allows to deploy any Hugging Face model (private/public) easily. It automatically spins up an endpoint for you, on a cloud provider of choice. One gets charged for the compute, with the option to scale down to zero.
+
+### Together.ai
+
+[Together.ai](https://www.together.ai/) provides a platform for both fine-tuning and deploying of open-source AI models. It supports both dedicated and serverless endpoints.
+
+### AnyScale
+
+[AnyScale](https://www.anyscale.com/) provides a platform for both fine-tuning and deploying of open-source AI models. It supports both dedicated and serverless deployments.
+
+### FireWorks.ai
+
+[FireWorks.ai](https://readme.fireworks.ai/docs/quickstart) provides a platform for deploying of open-source AI models, mainly targeting large language models.
+
+### Replicate
+
+[Replicate](https://replicate.com/) allows to deploy AI models easily using the [Cog](https://github.com/replicate/cog) framework (similar to Docker, but for machine learning models).
